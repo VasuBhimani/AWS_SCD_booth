@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loader</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .container {
+        height: 100vh;
+        width: 100%;
+        background-color: white;
+        position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgb(63, 94, 251);
+        background: linear-gradient(
+          300deg,
+          rgba(252, 70, 107, 1) 0%,
+          rgba(63, 94, 251, 1) 100%
+        );
+      }
+      .container img {
+        width: 200px;
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img src="../static/assets/cloud club logo.png" alt="" />
+    </div>
+  </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      function checkData() {
+        fetch("/get-request-data2")
+          .then((response) => response.json())
+          .then((data) => {
+            if (data) {
+              window.location.href = "/output";
+              // console.log(data);
+            }
+
+            // You can update the DOM or perform other actions with the data here
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+
+      // Check for data every 5 seconds
+      setInterval(checkData, 1000);
+    });
+
+    $(window).on("load", function () {
+      function loopFade() {
+        $(".container").fadeOut(2000, function () {
+          // After fading out, wait for 1 second, then fade back in
+          setTimeout(function () {
+            $(".container").fadeIn(2000, function () {
+              // Call the loop again
+              loopFade();
+            });
+          }, 10); // Wait for 1 second before fading back in
+        });
+      }
+      loopFade(); // Start the loop
+    });
+  </script>
+</html>
